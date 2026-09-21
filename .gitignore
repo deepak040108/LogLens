@@ -1,0 +1,16 @@
+backend/venv/
+__pycache__/
+*.pyc
+*.pyo
+node_modules/
+frontend/dist/
+backend/geoip/
+backend/static/
+backend/loglens.db
+backend/tmp-uploads/
+*.log
+test_*.py
+test_*.log
+test_*.pdf
+test-report.pdf
+.env

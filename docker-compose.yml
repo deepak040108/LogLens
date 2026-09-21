@@ -1,0 +1,25 @@
+version: "3.8"
+
+# Not independently verified end-to-end in this sandboxed environment
+# (no Docker daemon available here) -- provided per spec §35, built
+# from the same commands documented as working in README.md. Please
+# test locally before relying on this for deployment.
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - LOGLENS_DB_PATH=/data/loglens.db
+      - LOGLENS_BRUTE_FORCE_THRESHOLD=10
+      - LOGLENS_BRUTE_FORCE_WINDOW_SECONDS=300
+    volumes:
+      - loglens-data:/data
+      - ./backend/geoip:/app/geoip:ro  # mount your GeoLite2-Country.mmdb here
+    command: gunicorn -w 1 --threads 4 --worker-class gthread -b 0.0.0.0:4000 --timeout 120 app:app
+
+volumes:
+  loglens-data:
